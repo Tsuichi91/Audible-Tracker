@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audible Hörbuch Tracker</title>
+  <style>
+    /* --- Grundlayout --- */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      color: #333;
+    }
+    header {
+      background: #3a3a3a;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      padding: 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* --- Import-Button/Form --- */
+    #import-container {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    #import-btn {
+      background: #0073e6;
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #file-input {
+      display: none;
+    }
+
+    /* --- Bibliotheks-Grid --- */
+    #library {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .book-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .book-card img {
+      width: 100%;
+      height: auto;
+    }
+    .card-body {
+      padding: 0.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .book-title {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      flex-grow: 1;
+    }
+    .progress-container {
+      margin-top: auto;
+    }
+    .progress-bar {
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      height: 0.8rem;
+    }
+    .progress-bar-inner {
+      height: 100%;
+      background: #0073e6;
+      width: 0%;
+    }
+
+    /* --- Modal --- */
+    #modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    #modal .content {
+      background: white;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1rem;
+      position: relative;
+    }
+    #modal .close-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .chapter-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .chapter-item {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Meine Audible Hörbücher</h1>
+  </header>
+  <main>
+    <div id="import-container">
+      <button id="import-btn">Daten importieren</button>
+      <input type="file" id="file-input" accept=".json" />
+    </div>
+    <div id="library">
+      <!-- Buchkarten werden hier eingefügt -->
+    </div>
+  </main>
+
+  <!-- Details-Modal -->
+  <div id="modal">
+    <div class="content">
+      <button class="close-btn">✕</button>
+      <div id="modal-body">
+        <!-- Detailinfos -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let books = [];
+
+    // Hilfsfunktion: Zeit formatieren (Sekunden zu hh:mm:ss)
+    function formatTime(sec) {
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      return [h, m, s]
+        .map(v => String(v).padStart(2, '0'))
+        .join(':');
+    }
+
+    // Bibliothek rendern
+    function renderLibrary() {
+      const container = document.getElementById('library');
+      container.innerHTML = '';
+      books.forEach(book => {
+        const card = document.createElement('div');
+        card.className = 'book-card';
+        card.onclick = () => showDetails(book);
+
+        const img = document.createElement('img');
+        img.src = book.coverUrl;
+        img.alt = book.title;
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+
+        const title = document.createElement('h2');
+        title.className = 'book-title';
+        title.textContent = book.title;
+
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'progress-container';
+
+        const bar = document.createElement('div');
+        bar.className = 'progress-bar';
+        const inner = document.createElement('div');
+        inner.className = 'progress-bar-inner';
+        const percent = Math.round((book.currentTime / book.totalTime) * 100);
+        inner.style.width = percent + '%';
+        bar.appendChild(inner);
+
+        const label = document.createElement('div');
+        label.textContent = `${percent}% Laufzeit`; 
+
+        progressContainer.appendChild(bar);
+        progressContainer.appendChild(label);
+
+        body.appendChild(title);
+        body.appendChild(progressContainer);
+
+        card.appendChild(img);
+        card.appendChild(body);
+        container.appendChild(card);
+      });
+    }
+
+    // Details anzeigen
+    function showDetails(book) {
+      const modal = document.getElementById('modal');
+      const body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      const header = document.createElement('div');
+      header.innerHTML = `<h2>${book.title}</h2>
+        <p>Gesamt: ${formatTime(book.totalTime)}, gehört: ${formatTime(book.currentTime)}</p>`;
+
+      const chapters = document.createElement('ul');
+      chapters.className = 'chapter-list';
+      book.chapters.forEach(ch => {
+        const item = document.createElement('li');
+        item.className = 'chapter-item';
+        const pct = Math.round((ch.currentTime / ch.totalTime) * 100);
+        item.innerHTML = `<strong>${ch.title}</strong> &ndash; ${formatTime(ch.currentTime)}/${formatTime(ch.totalTime)} (${pct}%)`;
+        chapters.appendChild(item);
+      });
+
+      body.appendChild(header);
+      body.appendChild(chapters);
+      modal.style.display = 'flex';
+    }
+
+    // Modal schließen
+    document.querySelector('#modal .close-btn').onclick = () => {
+      document.getElementById('modal').style.display = 'none';
+    };
+
+    // Datei-Upload
+    document.getElementById('import-btn').onclick = () => {
+      document.getElementById('file-input').click();
+    };
+    document.getElementById('file-input').addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          books = JSON.parse(e.target.result);
+          renderLibrary();
+        } catch (err) {
+          alert('Fehler beim Einlesen der Datei. Stelle sicher, dass es valides JSON ist.');
+        }
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
