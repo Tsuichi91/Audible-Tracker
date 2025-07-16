@@ -909,266 +909,66 @@
   {
     "id": "buch11",
     "title": "Hörbuch 11",
-    "autor": "",
-    "gesprochenVon": "",
-    "serie": "",
-    "erscheinungsdatum": "",
-    "sprache": "",
-    "format": "",
-    "bewertung": 0,
-    "coverUrl": "",
-    "totalTime": 0,
-    "currentTime": 0,
+    "autor": "Shenee Howard",
+    "gesprochenVon": "Susan Wokoma, Daniel Henney",
+    "serie": "-",
+    "erscheinungsdatum": "27.09.2023",
+    "sprache": "Englisch",
+    "format": "Podcast",
+    "bewertung": 10,
+    "coverUrl": "https://m.media-amazon.com/images/I/5111zru8biL._SL500_.jpg",
+    "totalTime": 15060,
+    "currentTime": 15060,
     "chapters": [
       {
-        "title": "Kapitel 1",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 1. Who?",
+        "totalTime": 1440,
+        "currentTime": 1440
       },
       {
-        "title": "Kapitel 2",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 2. Welcome to Korea",
+        "totalTime": 1740,
+        "currentTime": 1740
       },
       {
-        "title": "Kapitel 3",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 3. Fanchant",
+        "totalTime": 1620,
+        "currentTime": 1620
       },
       {
-        "title": "Kapitel 4",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 4. Deliveries",
+        "totalTime": 1680,
+        "currentTime": 1680
       },
       {
-        "title": "Kapitel 5",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 5. Field Trip",
+        "totalTime": 1380,
+        "currentTime": 1380
       },
       {
-        "title": "Kapitel 6",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 6. The Essay",
+        "totalTime": 1440,
+        "currentTime": 1440
       },
       {
-        "title": "Kapitel 7",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 7. The Bias",
+        "totalTime": 1200,
+        "currentTime": 1200
       },
       {
-        "title": "Kapitel 8",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 8. Hajima",
+        "totalTime": 1440,
+        "currentTime": 1440
       },
       {
-        "title": "Kapitel 9",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 9. Friend Zone",
+        "totalTime": 1440,
+        "currentTime": 1440
       },
       {
-        "title": "Kapitel 10",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 11",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 12",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 13",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 14",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 15",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 16",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 17",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 18",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 19",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 20",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 21",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 22",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 23",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 24",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 25",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 26",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 27",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 28",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 29",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 30",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 31",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 32",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 33",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 34",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 35",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 36",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 37",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 38",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 39",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 40",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 41",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 42",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 43",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 44",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 45",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 46",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 47",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 48",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 49",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 50",
-        "totalTime": 0,
-        "currentTime": 0
+        "title": "Ep 10. The Interview",
+        "totalTime": 1680,
+        "currentTime": 1680
       }
     ]
   },
