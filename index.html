@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Audible Hörbuch Tracker</title>
   <style>
-    /* --- Grundlayout --- */
+    /* --- Grundlayout und Pastell-Verlauf --- */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f5f5f5;
+      background: linear-gradient(135deg, #ffe5ec, #e5f4ff);
       color: #333;
     }
     header {
-      background: #3a3a3a;
-      color: white;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
       padding: 1rem;
       text-align: center;
+      backdrop-filter: blur(10px);
     }
     main {
       padding: 1rem;
@@ -31,38 +32,56 @@
       margin-bottom: 1rem;
     }
     #import-btn {
-      background: #0073e6;
+      background: #a2d5f2;
       border: none;
-      color: white;
+      color: #333;
       padding: 0.5rem 1rem;
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 20px;
+      transition: background 0.3s;
+    }
+    #import-btn:hover {
+      background: #8ccae6;
     }
     #file-input {
       display: none;
     }
 
-    /* --- Bibliotheks-Grid --- */
-    #library {
+    /* --- Serien-Abschnitte --- */
+    .series-heading {
+      font-size: 1.5rem;
+      color: #555;
+      margin: 2rem 0 1rem;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    .series-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 1rem;
     }
+
+    /* --- Buchkarten --- */
     .book-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       overflow: hidden;
       cursor: pointer;
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .book-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
     .book-card img {
       width: 100%;
       height: auto;
     }
     .card-body {
-      padding: 0.5rem;
+      padding: 0.75rem;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
@@ -70,18 +89,17 @@
     .book-title {
       font-size: 1rem;
       margin: 0.25rem 0;
-      flex-grow: 0;
     }
     .book-author,
     .book-series {
       margin: 0;
       font-size: 0.85rem;
-      color: #555;
+      color: #666;
     }
     .book-rating {
       margin: 0.25rem 0;
       font-size: 0.85rem;
-      color: #ff9900;
+      color: #ffb400;
     }
     .progress-container {
       margin-top: auto;
@@ -94,7 +112,7 @@
     }
     .progress-bar-inner {
       height: 100%;
-      background: #0073e6;
+      background: #a2d5f2;
       width: 0%;
     }
 
@@ -149,9 +167,7 @@
       <button id="import-btn">Daten importieren</button>
       <input type="file" id="file-input" accept=".json" />
     </div>
-    <div id="library">
-      <!-- Buchkarten werden hier eingefügt -->
-    </div>
+    <div id="library"></div>
   </main>
 
   <!-- Details-Modal -->
@@ -172,65 +188,87 @@
       return [h, m, s].map(v => String(v).padStart(2, '0')).join(':');
     }
 
+    function createCard(book) {
+      const card = document.createElement('div');
+      card.className = 'book-card';
+      card.onclick = () => showDetails(book);
+
+      const img = document.createElement('img');
+      img.src = book.coverUrl;
+      img.alt = book.title;
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const title = document.createElement('h2');
+      title.className = 'book-title';
+      title.textContent = book.title;
+
+      const author = document.createElement('p');
+      author.className = 'book-author';
+      author.textContent = book.autor;
+
+      const series = document.createElement('p');
+      series.className = 'book-series';
+      series.textContent = book.serie;
+
+      const rating = document.createElement('p');
+      rating.className = 'book-rating';
+      rating.textContent = book.bewertung ? `${book.bewertung} ★` : '';
+
+      const progressContainer = document.createElement('div');
+      progressContainer.className = 'progress-container';
+
+      const bar = document.createElement('div');
+      bar.className = 'progress-bar';
+      const inner = document.createElement('div');
+      inner.className = 'progress-bar-inner';
+      const percent = book.totalTime ? Math.round((book.currentTime / book.totalTime) * 100) : 0;
+      inner.style.width = percent + '%';
+      bar.appendChild(inner);
+
+      const label = document.createElement('div');
+      label.textContent = `${percent}% Laufzeit`;
+
+      progressContainer.appendChild(bar);
+      progressContainer.appendChild(label);
+
+      body.appendChild(title);
+      body.appendChild(author);
+      body.appendChild(series);
+      body.appendChild(rating);
+      body.appendChild(progressContainer);
+
+      card.appendChild(img);
+      card.appendChild(body);
+      return card;
+    }
+
     function renderLibrary() {
       const container = document.getElementById('library');
       container.innerHTML = '';
+
+      // Bücher nach Serie gruppieren
+      const grouped = {};
       books.forEach(book => {
-        const card = document.createElement('div');
-        card.className = 'book-card';
-        card.onclick = () => showDetails(book);
+        const key = book.serie || 'Ohne Serie';
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(book);
+      });
 
-        const img = document.createElement('img');
-        img.src = book.coverUrl;
-        img.alt = book.title;
+      // Sektionen pro Serie anlegen
+      Object.keys(grouped).forEach(seriesName => {
+        const heading = document.createElement('h2');
+        heading.className = 'series-heading';
+        heading.textContent = seriesName;
+        container.appendChild(heading);
 
-        const body = document.createElement('div');
-        body.className = 'card-body';
-
-        const title = document.createElement('h2');
-        title.className = 'book-title';
-        title.textContent = book.title;
-
-        const author = document.createElement('p');
-        author.className = 'book-author';
-        author.textContent = book.autor;
-
-        const series = document.createElement('p');
-        series.className = 'book-series';
-        series.textContent = book.serie;
-
-        const rating = document.createElement('p');
-        rating.className = 'book-rating';
-        rating.textContent = book.bewertung ? `${book.bewertung} ★` : '';
-
-        const progressContainer = document.createElement('div');
-        progressContainer.className = 'progress-container';
-
-        const bar = document.createElement('div');
-        bar.className = 'progress-bar';
-        const inner = document.createElement('div');
-        inner.className = 'progress-bar-inner';
-        const percent = book.totalTime
-          ? Math.round((book.currentTime / book.totalTime) * 100)
-          : 0;
-        inner.style.width = percent + '%';
-        bar.appendChild(inner);
-
-        const label = document.createElement('div');
-        label.textContent = `${percent}% Laufzeit`;
-
-        progressContainer.appendChild(bar);
-        progressContainer.appendChild(label);
-
-        body.appendChild(title);
-        body.appendChild(author);
-        body.appendChild(series);
-        body.appendChild(rating);
-        body.appendChild(progressContainer);
-
-        card.appendChild(img);
-        card.appendChild(body);
-        container.appendChild(card);
+        const grid = document.createElement('div');
+        grid.className = 'series-grid';
+        grouped[seriesName].forEach(book => {
+          grid.appendChild(createCard(book));
+        });
+        container.appendChild(grid);
       });
     }
 
@@ -244,11 +282,7 @@
         <h2>${book.title}${book.serie ? ` – ${book.serie}` : ''}</h2>
         <p><strong>Autor:</strong> ${book.autor}</p>
         <p><strong>Gesprochen von:</strong> ${book.gesprochenVon}</p>
-        <p><strong>Erscheinungsdatum:</strong> ${book.erscheinungsdatum}</p>
-        <p><strong>Sprache:</strong> ${book.sprache}</p>
-        <p><strong>Format:</strong> ${book.format}</p>
-        <p><strong>Bewertung:</strong> ${book.bewertung ? book.bewertung + ' ★' : '–'}</p>
-        <p>Gesamt: ${formatTime(book.totalTime)}, gehört: ${formatTime(book.currentTime)}</p>
+        <p><strong>...</strong></p>
       `;
 
       const chapters = document.createElement('ul');
@@ -256,10 +290,8 @@
       book.chapters.forEach(ch => {
         const item = document.createElement('li');
         item.className = 'chapter-item';
-        const pct = ch.totalTime
-          ? Math.round((ch.currentTime / ch.totalTime) * 100)
-          : 0;
-        item.innerHTML = `<strong>${ch.title}</strong> &ndash; ${formatTime(ch.currentTime)}/${formatTime(ch.totalTime)} (${pct}%)`;
+        const pct = ch.totalTime ? Math.round((ch.currentTime / ch.totalTime) * 100) : 0;
+        item.innerHTML = `<strong>${ch.title}</strong> – ${formatTime(ch.currentTime)}/${formatTime(ch.totalTime)} (${pct}%)`;
         chapters.appendChild(item);
       });
 
@@ -272,10 +304,7 @@
       document.getElementById('modal').style.display = 'none';
     };
 
-    document.getElementById('import-btn').onclick = () => {
-      document.getElementById('file-input').click();
-    };
-
+    document.getElementById('import-btn').onclick = () => document.getElementById('file-input').click();
     document.getElementById('file-input').addEventListener('change', event => {
       const file = event.target.files[0];
       if (!file) return;
@@ -284,8 +313,8 @@
         try {
           books = JSON.parse(e.target.result);
           renderLibrary();
-        } catch (err) {
-          alert('Fehler beim Einlesen der Datei. Stelle sicher, dass es valides JSON ist.');
+        } catch {
+          alert('Fehler: ungültiges JSON.');
         }
       };
       reader.readAsText(file);
