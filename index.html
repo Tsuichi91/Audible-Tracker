@@ -249,8 +249,13 @@
       nav.innerHTML = '';
       container.innerHTML = '';
 
+      // Nur Bücher mit ausgefüllten Daten anzeigen
+      const validBooks = books.filter(book =>
+        book.coverUrl && book.autor && book.totalTime > 0
+      );
+
       const grouped = {};
-      books.forEach(book => {
+      validBooks.forEach(book => {
         const key = book.serie || 'Ohne Serie';
         if (!grouped[key]) grouped[key] = [];
         grouped[key].push(book);
@@ -283,11 +288,7 @@
       });
     }
 
-    function showDetails(book) {
-      // Modal-Logik unverändert
-    }
-
-    fetch('data/audible_template.json')
+    function showDetails(book)('data/audible_template.json')
       .then(res => res.json())
       .then(json => {
         books = json;
