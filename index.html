@@ -26,27 +26,6 @@
       margin: auto;
     }
 
-    /* --- Import-Button/Form --- */
-    #import-container {
-      text-align: right;
-      margin-bottom: 1rem;
-    }
-    #import-btn {
-      background: #a2d5f2;
-      border: none;
-      color: #333;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 20px;
-      transition: background 0.3s;
-    }
-    #import-btn:hover {
-      background: #8ccae6;
-    }
-    #file-input {
-      display: none;
-    }
-
     /* --- Serien-Abschnitte --- */
     .series-heading {
       font-size: 1.5rem;
@@ -166,11 +145,7 @@
     <h1>Meine Audible Hörbücher</h1>
   </header>
   <main>
-    <div id="import-container">
-      <button id="import-btn">Daten importieren</button>
-      <input type="file" id="file-input" accept=".json" />
-    </div>
-    <div id="library"></div>
+    <div id="library">Lade Daten …</div>
   </main>
 
   <!-- Details-Modal bleibt unverändert -->
@@ -221,7 +196,6 @@
       const inner = document.createElement('div');
       inner.className = 'progress-bar-inner';
       const percent = book.totalTime ? Math.round((book.currentTime / book.totalTime) * 100) : 0;
-      // Animiert die Füllung
       setTimeout(() => inner.style.width = percent + '%', 50);
       bar.appendChild(inner);
 
@@ -268,24 +242,20 @@
     }
 
     function showDetails(book) {
-      // Modal-Logik bleibt gleich
+      // Modal-Logik unverändert
     }
 
-    document.getElementById('import-btn').onclick = () => document.getElementById('file-input').click();
-    document.getElementById('file-input').addEventListener('change', event => {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        try {
-          books = JSON.parse(e.target.result);
-          renderLibrary();
-        } catch {
-          alert('Fehler: ungültiges JSON.');
-        }
-      };
-      reader.readAsText(file);
-    });
+    // Daten per Fetch laden
+    fetch('data/audible_template.json')
+      .then(res => res.json())
+      .then(json => {
+        books = json;
+        renderLibrary();
+      })
+      .catch(err => {
+        document.getElementById('library').textContent = 'Fehler beim Laden der Daten.';
+        console.error(err);
+      });
   </script>
 </body>
 </html>
