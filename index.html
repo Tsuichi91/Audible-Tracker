@@ -69,8 +69,19 @@
     }
     .book-title {
       font-size: 1rem;
-      margin: 0.5rem 0;
-      flex-grow: 1;
+      margin: 0.25rem 0;
+      flex-grow: 0;
+    }
+    .book-author,
+    .book-series {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .book-rating {
+      margin: 0.25rem 0;
+      font-size: 0.85rem;
+      color: #ff9900;
     }
     .progress-container {
       margin-top: auto;
@@ -122,7 +133,7 @@
     .chapter-list {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 1rem 0 0;
     }
     .chapter-item {
       margin-bottom: 0.5rem;
@@ -147,26 +158,20 @@
   <div id="modal">
     <div class="content">
       <button class="close-btn">✕</button>
-      <div id="modal-body">
-        <!-- Detailinfos -->
-      </div>
+      <div id="modal-body"></div>
     </div>
   </div>
 
   <script>
     let books = [];
 
-    // Hilfsfunktion: Zeit formatieren (Sekunden zu hh:mm:ss)
     function formatTime(sec) {
       const h = Math.floor(sec / 3600);
       const m = Math.floor((sec % 3600) / 60);
       const s = sec % 60;
-      return [h, m, s]
-        .map(v => String(v).padStart(2, '0'))
-        .join(':');
+      return [h, m, s].map(v => String(v).padStart(2, '0')).join(':');
     }
 
-    // Bibliothek rendern
     function renderLibrary() {
       const container = document.getElementById('library');
       container.innerHTML = '';
@@ -186,6 +191,18 @@
         title.className = 'book-title';
         title.textContent = book.title;
 
+        const author = document.createElement('p');
+        author.className = 'book-author';
+        author.textContent = book.autor;
+
+        const series = document.createElement('p');
+        series.className = 'book-series';
+        series.textContent = book.serie;
+
+        const rating = document.createElement('p');
+        rating.className = 'book-rating';
+        rating.textContent = book.bewertung ? `${book.bewertung} ★` : '';
+
         const progressContainer = document.createElement('div');
         progressContainer.className = 'progress-container';
 
@@ -193,17 +210,22 @@
         bar.className = 'progress-bar';
         const inner = document.createElement('div');
         inner.className = 'progress-bar-inner';
-        const percent = Math.round((book.currentTime / book.totalTime) * 100);
+        const percent = book.totalTime
+          ? Math.round((book.currentTime / book.totalTime) * 100)
+          : 0;
         inner.style.width = percent + '%';
         bar.appendChild(inner);
 
         const label = document.createElement('div');
-        label.textContent = `${percent}% Laufzeit`; 
+        label.textContent = `${percent}% Laufzeit`;
 
         progressContainer.appendChild(bar);
         progressContainer.appendChild(label);
 
         body.appendChild(title);
+        body.appendChild(author);
+        body.appendChild(series);
+        body.appendChild(rating);
         body.appendChild(progressContainer);
 
         card.appendChild(img);
@@ -212,22 +234,31 @@
       });
     }
 
-    // Details anzeigen
     function showDetails(book) {
       const modal = document.getElementById('modal');
       const body = document.getElementById('modal-body');
       body.innerHTML = '';
 
       const header = document.createElement('div');
-      header.innerHTML = `<h2>${book.title}</h2>
-        <p>Gesamt: ${formatTime(book.totalTime)}, gehört: ${formatTime(book.currentTime)}</p>`;
+      header.innerHTML = `
+        <h2>${book.title}${book.serie ? ` – ${book.serie}` : ''}</h2>
+        <p><strong>Autor:</strong> ${book.autor}</p>
+        <p><strong>Gesprochen von:</strong> ${book.gesprochenVon}</p>
+        <p><strong>Erscheinungsdatum:</strong> ${book.erscheinungsdatum}</p>
+        <p><strong>Sprache:</strong> ${book.sprache}</p>
+        <p><strong>Format:</strong> ${book.format}</p>
+        <p><strong>Bewertung:</strong> ${book.bewertung ? book.bewertung + ' ★' : '–'}</p>
+        <p>Gesamt: ${formatTime(book.totalTime)}, gehört: ${formatTime(book.currentTime)}</p>
+      `;
 
       const chapters = document.createElement('ul');
       chapters.className = 'chapter-list';
       book.chapters.forEach(ch => {
         const item = document.createElement('li');
         item.className = 'chapter-item';
-        const pct = Math.round((ch.currentTime / ch.totalTime) * 100);
+        const pct = ch.totalTime
+          ? Math.round((ch.currentTime / ch.totalTime) * 100)
+          : 0;
         item.innerHTML = `<strong>${ch.title}</strong> &ndash; ${formatTime(ch.currentTime)}/${formatTime(ch.totalTime)} (${pct}%)`;
         chapters.appendChild(item);
       });
@@ -237,15 +268,14 @@
       modal.style.display = 'flex';
     }
 
-    // Modal schließen
     document.querySelector('#modal .close-btn').onclick = () => {
       document.getElementById('modal').style.display = 'none';
     };
 
-    // Datei-Upload
     document.getElementById('import-btn').onclick = () => {
       document.getElementById('file-input').click();
     };
+
     document.getElementById('file-input').addEventListener('change', event => {
       const file = event.target.files[0];
       if (!file) return;
