@@ -172,7 +172,13 @@
     <div id="library">Lade Daten …</div>
   </main>
 
-  <!-- Details-Modal bleibt unverändert -->
+  <!-- Details-Modal -->
+  <div id="modal">
+    <div class="content">
+      <button class="close-btn">✕</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
 
   <script>
     let books = [];
@@ -204,18 +210,22 @@
       const body = document.createElement('div');
       body.className = 'card-body';
 
+      // Titel
       const title = document.createElement('p');
       title.className = 'book-title';
       title.textContent = book.title;
 
+      // Autor
       const author = document.createElement('p');
       author.className = 'book-author';
       author.textContent = book.autor;
 
+      // Bewertung
       const rating = document.createElement('p');
       rating.className = 'book-rating';
       rating.textContent = book.bewertung ? `${book.bewertung} ★` : '';
 
+      // Fortschritt
       const progressContainer = document.createElement('div');
       progressContainer.className = 'progress-container';
 
@@ -288,7 +298,40 @@
       });
     }
 
-    function showDetails(book)('data/audible_template.json')
+    function showDetails(book) {
+      const modal = document.getElementById('modal');
+      const body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      const header = document.createElement('div');
+      header.innerHTML = `
+        <h2>${book.title}${book.serie ? ` – ${book.serie}` : ''}</h2>
+        <p><strong>Autor:</strong> ${book.autor}</p>
+        <p><strong>Gesprochen von:</strong> ${book.gesprochenVon}</p>
+        <p><strong>Erscheinungsdatum:</strong> ${book.erscheinungsdatum}</p>
+        <p><strong>Sprache:</strong> ${book.sprache}</p>
+        <p><strong>Format:</strong> ${book.format}</p>
+        <p><strong>Bewertung:</strong> ${book.bewertung ? book.bewertung + ' ★' : '–'}</p>
+        <p>Gesamt: ${formatTime(book.totalTime)}, gehört: ${formatTime(book.currentTime)}</p>
+      `;
+
+      const chapters = document.createElement('ul');
+      chapters.className = 'chapter-list';
+      book.chapters.forEach(ch => {
+        const item = document.createElement('li');
+        item.className = 'chapter-item';
+        const pct = ch.totalTime ? Math.round((ch.currentTime / ch.totalTime) * 100) : 0;
+        item.innerHTML = `<strong>${ch.title}</strong> – ${formatTime(ch.currentTime)}/${formatTime(ch.totalTime)} (${pct}%)`;
+        chapters.appendChild(item);
+      });
+
+      body.appendChild(header);
+      body.appendChild(chapters);
+      modal.style.display = 'flex';
+    }
+
+    // Daten per Fetch laden
+    fetch('data/audible_template.json')
       .then(res => res.json())
       .then(json => {
         books = json;
