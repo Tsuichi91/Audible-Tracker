@@ -335,7 +335,14 @@
       .then(res => res.json())
       .then(json => {
         books = json;
+        // Gesamt-Fortschritt basierend auf Kapitel zusammenrechnen
+        books.forEach(book => {
+          const sumCurrent = book.chapters
+            .reduce((sum, ch) => sum + (ch.currentTime || 0), 0);
+          book.currentTime = sumCurrent;
+        });
         renderLibrary();
+      })
       })
       .catch(err => {
         document.getElementById('library').textContent = 'Fehler beim Laden der Daten.';
