@@ -822,266 +822,86 @@
   },
   {
     "id": "buch10",
-    "title": "Hörbuch 10",
-    "autor": "",
-    "gesprochenVon": "",
+    "title": "Blame It On Bianca Del Rio",
+    "autor": "Bianca Del Rio",
+    "gesprochenVon": "Bianca Del Rio",
     "serie": "",
-    "erscheinungsdatum": "",
-    "sprache": "",
-    "format": "",
-    "bewertung": 0,
-    "coverUrl": "",
-    "totalTime": 0,
+    "erscheinungsdatum": "2018-06-14",
+    "sprache": "Englisch",
+    "format": "Ungekürztes Hörbuch",
+    "bewertung": 10,
+    "coverUrl": "https://m.media-amazon.com/images/I/51insOS6E0L._SL500_.jpg",
+    "totalTime": 17127,
     "currentTime": 0,
     "chapters": [
       {
         "title": "Kapitel 1",
-        "totalTime": 0,
+        "totalTime": 140,
         "currentTime": 0
       },
       {
         "title": "Kapitel 2",
-        "totalTime": 0,
+        "totalTime": 189,
         "currentTime": 0
       },
       {
         "title": "Kapitel 3",
-        "totalTime": 0,
+        "totalTime": 2183,
         "currentTime": 0
       },
       {
         "title": "Kapitel 4",
-        "totalTime": 0,
+        "totalTime": 2110,
         "currentTime": 0
       },
       {
         "title": "Kapitel 5",
-        "totalTime": 0,
+        "totalTime": 1249,
         "currentTime": 0
       },
       {
         "title": "Kapitel 6",
-        "totalTime": 0,
+        "totalTime": 1182,
         "currentTime": 0
       },
       {
         "title": "Kapitel 7",
-        "totalTime": 0,
+        "totalTime": 2199,
         "currentTime": 0
       },
       {
         "title": "Kapitel 8",
-        "totalTime": 0,
+        "totalTime": 1676,
         "currentTime": 0
       },
       {
         "title": "Kapitel 9",
-        "totalTime": 0,
+        "totalTime": 2428,
         "currentTime": 0
       },
       {
         "title": "Kapitel 10",
-        "totalTime": 0,
+        "totalTime": 677,
         "currentTime": 0
       },
       {
         "title": "Kapitel 11",
-        "totalTime": 0,
+        "totalTime": 1117,
         "currentTime": 0
       },
       {
         "title": "Kapitel 12",
-        "totalTime": 0,
+        "totalTime": 1786,
         "currentTime": 0
       },
       {
         "title": "Kapitel 13",
-        "totalTime": 0,
+        "totalTime": 40,
         "currentTime": 0
       },
       {
         "title": "Kapitel 14",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 15",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 16",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 17",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 18",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 19",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 20",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 21",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 22",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 23",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 24",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 25",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 26",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 27",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 28",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 29",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 30",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 31",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 32",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 33",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 34",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 35",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 36",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 37",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 38",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 39",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 40",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 41",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 42",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 43",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 44",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 45",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 46",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 47",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 48",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 49",
-        "totalTime": 0,
-        "currentTime": 0
-      },
-      {
-        "title": "Kapitel 50",
-        "totalTime": 0,
+        "totalTime": 151,
         "currentTime": 0
       }
     ]
