@@ -26,6 +26,27 @@
       margin: auto;
     }
 
+    /* --- Serien-Navigation --- */
+    #series-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    #series-nav a {
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.8);
+      border-radius: 20px;
+      text-decoration: none;
+      color: #555;
+      font-size: 0.9rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    #series-nav a:hover {
+      background: #a2d5f2;
+      color: #fff;
+    }
+
     /* --- Serien-Abschnitte --- */
     .series-heading {
       font-size: 1.5rem;
@@ -145,6 +166,9 @@
     <h1>Meine Audible Hörbücher</h1>
   </header>
   <main>
+    <!-- Serien-Navigation -->
+    <nav id="series-nav">Lade Serien …</nav>
+    <!-- Bibliothek -->
     <div id="library">Lade Daten …</div>
   </main>
 
@@ -152,6 +176,14 @@
 
   <script>
     let books = [];
+
+    function slugify(text) {
+      return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9\-]/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    }
 
     function formatTime(sec) {
       const h = Math.floor(sec / 3600);
@@ -172,22 +204,18 @@
       const body = document.createElement('div');
       body.className = 'card-body';
 
-      // Titel
       const title = document.createElement('p');
       title.className = 'book-title';
       title.textContent = book.title;
 
-      // Autor
       const author = document.createElement('p');
       author.className = 'book-author';
       author.textContent = book.autor;
 
-      // Bewertung
       const rating = document.createElement('p');
       rating.className = 'book-rating';
       rating.textContent = book.bewertung ? `${book.bewertung} ★` : '';
 
-      // Fortschritt
       const progressContainer = document.createElement('div');
       progressContainer.className = 'progress-container';
 
@@ -216,7 +244,9 @@
     }
 
     function renderLibrary() {
+      const nav = document.getElementById('series-nav');
       const container = document.getElementById('library');
+      nav.innerHTML = '';
       container.innerHTML = '';
 
       const grouped = {};
@@ -226,8 +256,20 @@
         grouped[key].push(book);
       });
 
+      // Navigation erzeugen
       Object.keys(grouped).forEach(seriesName => {
+        const id = 'series-' + slugify(seriesName);
+        const link = document.createElement('a');
+        link.href = '#' + id;
+        link.textContent = seriesName;
+        nav.appendChild(link);
+      });
+
+      // Sektionen pro Serie anlegen
+      Object.keys(grouped).forEach(seriesName => {
+        const id = 'series-' + slugify(seriesName);
         const heading = document.createElement('h2');
+        heading.id = id;
         heading.className = 'series-heading';
         heading.textContent = seriesName;
         container.appendChild(heading);
@@ -245,7 +287,6 @@
       // Modal-Logik unverändert
     }
 
-    // Daten per Fetch laden
     fetch('data/audible_template.json')
       .then(res => res.json())
       .then(json => {
